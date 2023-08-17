@@ -1,6 +1,8 @@
 #include "Panel.h"
+#include <string>
+using namespace std;
 
-Panel::Panel(wxWindow *parent, int id, wxPoint defaultPosition, wxSize Size): wxPanel(parent, id){
+Panel::Panel(string sign, wxWindow *parent, int id, wxPoint defaultPosition, wxSize Size): wxPanel(parent, id), sign{sign}{
     this->clicked = false;
     this->Bind(wxEVT_LEFT_DOWN, &Panel::OnLeftClicked, this);
 
@@ -21,7 +23,7 @@ void Panel::OnLeftClicked(wxMouseEvent &event){
 };
 void Panel::RefreshPanel(){
     if(clicked){
-        this->text->SetLabel("X");
+        this->text->SetLabel(this->sign);
         wxFont font(100, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
         this->text->SetFont(font);
 

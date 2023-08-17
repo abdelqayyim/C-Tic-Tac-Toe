@@ -5,6 +5,7 @@
 #ifndef WX_PRECOMP
     #include <wx/wx.h>
 #endif
+#include "Score.cpp"
 
 class cMain : public wxFrame
 {
@@ -12,14 +13,15 @@ public:
     cMain();
     ~cMain();
     wxDECLARE_EVENT_TABLE();
+    void OnLeftClicked(wxMouseEvent &event);
     int ROWS = 3;
     int COLUMNS = 3;
     wxButton **btn;
+    void updateScore(string player, string position);
+    void printScored();
 
 private:
-    // wxButton *mainBtn;
-    // wxTextCtrl *mainText;
-
+    Score *ScoreBoard;
 };
 
 #endif // CMAIN_H

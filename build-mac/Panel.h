@@ -5,17 +5,19 @@
 #ifndef WX_PRECOMP
     #include <wx/wx.h>
 #endif
-
-class Panel: public wxPanel
+#include <string>
+using namespace std;
+class Panel : public wxPanel
 {
     public:
-        Panel(wxWindow *parent, int id, wxPoint defaultPosition, wxSize defaultSize);
+        Panel(string sign, wxWindow *parent, int id, wxPoint defaultPosition, wxSize defaultSize);
         void OnLeftClicked(wxMouseEvent &event);
         void RefreshPanel();
 
     private:
         bool clicked;
         wxStaticText *text;
+        string sign;
 };
 
 #endif // PANEL_H

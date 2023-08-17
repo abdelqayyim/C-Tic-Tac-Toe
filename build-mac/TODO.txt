@@ -1,0 +1,3 @@
+Create a Player class
+this class should have the player's name and their sign X or O
+Use this to update the game's scoreboard 
