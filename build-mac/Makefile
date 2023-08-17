@@ -524,8 +524,8 @@ cmake_check_build_system:
 .PHONY : cmake_check_build_system
 
 
-tic: Main.cpp 
-	g++ -Wall -std=c++11 -o tic cMain.cpp MyApp.cpp `wx-config --libs` `wx-config --cxxflags`
+tic: Main.cpp
+	g++ -Wall -std=c++11 -o tic cMain.cpp MyApp.cpp Panel.cpp `wx-config --libs` `wx-config --cxxflags`
 	# g++ -Wall -std=c++11 -o tic Main.cpp `wx-config --libs` `wx-config --cxxflags`
 cleantic: 
 	rm -f tic *.o

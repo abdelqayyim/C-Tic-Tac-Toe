@@ -1,0 +1,3 @@
+A Score class that keeps track of the player's played positions
+
+After every clicl update Score and send request

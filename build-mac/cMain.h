@@ -11,8 +11,6 @@ class cMain : public wxFrame
 public:
     cMain();
     ~cMain();
-    void OnButtonClicked(wxCommandEvent& event);
-    void OnLeftClicked(wxMouseEvent& event);
     wxDECLARE_EVENT_TABLE();
     int ROWS = 3;
     int COLUMNS = 3;
