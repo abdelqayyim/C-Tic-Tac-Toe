@@ -13,6 +13,8 @@ class Panel : public wxPanel
         Panel(string sign, wxWindow *parent, int id, wxPoint defaultPosition, wxSize defaultSize);
         void OnLeftClicked(wxMouseEvent &event);
         void RefreshPanel();
+        string getSign();
+        void setSign(string newSign);
 
     private:
         bool clicked;

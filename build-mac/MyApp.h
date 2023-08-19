@@ -6,14 +6,19 @@
     #include <wx/wx.h>
 #endif
 #include "cMain.h"
+#include "InputDialog.h"
+
+const wxEventType wxEVT_SWITCH_FRAME = wxNewEventType(); // Define the custom event ID
 
 class MyApp : public wxApp
 {
-public:
-    virtual bool OnInit();
+    public:
+        virtual bool OnInit();
+        void switchFrame();
 
-private:
-    cMain *frame1 = nullptr;
+    private:
+        InputDialog *frame1 = nullptr;
+        cMain *frame2 = nullptr;
 };
 
 #endif // MYAPP_H

@@ -5,6 +5,9 @@ using namespace std;
 Panel::Panel(string sign, wxWindow *parent, int id, wxPoint defaultPosition, wxSize Size): wxPanel(parent, id), sign{sign}{
     this->clicked = false;
     this->Bind(wxEVT_LEFT_DOWN, &Panel::OnLeftClicked, this);
+    
+    wxStaticBoxSizer *staticBoxSizer = new wxStaticBoxSizer(wxVERTICAL, this, "");
+    staticBoxSizer->GetStaticBox()->SetBackgroundColour(*wxWHITE); // Set white background color
 
     wxBoxSizer *verticalSizer = new wxBoxSizer(wxVERTICAL);
     wxBoxSizer *horizontalSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -34,3 +37,9 @@ void Panel::RefreshPanel(){
         this->text->SetLabel("");
     }
 };
+string Panel:: getSign(){
+    return this->sign;
+}
+void Panel:: setSign(string newSign){
+    this->sign = newSign;
+}
