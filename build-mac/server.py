@@ -1,57 +1,44 @@
 import socket
 import threading
 
-def display_board(board):
-    for row in board:
-        print(" ".join(row))
-
-# Other functions (check_winner, main) remain the same
-
-def handle_client(client_socket, player):
+clients = []
+print(f"The initial length is {len(clients)}")
+def handle_client(client_socket):
+    clients.append(client_socket)
+    if len(clients) == 1:
+        print(f"Connection from Client #{len(clients)}\nWaiting for Client #2")
+    else:
+        print(f"Client #{len(clients)} just connect\n Game is about to start")
+    
     while True:
         try:
-            if player == 1:
-                client_socket.send("You are Player 1. Waiting for Player 2 to connect...\n".encode())
-            else:
-                client_socket.send("You are Player 2. The game is starting!\n".encode())
-
-            # Handle the player's move and update the board
-            pass
-
-        except Exception as e:
-            print(f"Error with Player {player}: {e}")
+            msg_received = client_socket.recv(1024)
+            if not msg_received:   
+                print(f"Client #{len(clients)} disconnected from server")
+                clients.remove(client_socket)
+                break
+            msg_received = msg_received.decode()
+            print("Client:", msg_received)
+            
+            for client in clients:
+                if client != client_socket:
+                    client.send(msg_received.encode())
+        except:
+            clients.remove(client_socket)
+            print("Player has been removed")
             break
+
     client_socket.close()
 
-def main():
-    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_address = ('127.0.0.1', 12345)
-    server_socket.bind(server_address)
-    server_socket.listen(2)  # Listen for two players
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+LOCALHOST = '127.0.0.1'
+port = 9990
 
-    print("Server listening on", server_address)
+server_socket.bind((LOCALHOST, port))
+server_socket.listen(2)
+print("Server started...")
 
-    player = 1
-    player_sockets = []
-
-    while True:
-        client_socket, client_address = server_socket.accept()
-
-        print("Connection from", client_address)
-        player_sockets.append(client_socket)
-
-        threading.Thread(target=handle_client, args=(client_socket, player)).start()
-
-        player += 1
-        if player > 2:
-            print("Both players connected")
-            break  # Both players connected
-
-    for thread in threading.enumerate():
-        if thread != threading.current_thread():
-            thread.join()
-
-    print("Both players connected. Starting game...")
-
-if __name__ == "__main__":
-    main()
+while True:
+    client_socket, addr = server_socket.accept()
+    client_thread = threading.Thread(target=handle_client, args=(client_socket,))
+    client_thread.start()
