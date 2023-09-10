@@ -1,6 +1,9 @@
 #include "Client.h"
+#include <string.h>
+#include <iostream>
+#include "cMain.h"
 using namespace std;
-Client::Client() : ioContext(), socket(ioContext) {
+Client::Client() : ioContext(), socket(ioContext){
     // Other initialization code for ioContext, endpoint, etc.
 }
 
@@ -27,9 +30,10 @@ try {
                 }
                 else{
                     cout <<"NEW MESSAGE RECEIVED"<< endl;
-                    //this is where you update the game state
+                    
                     game->updateBoard(msg_received);
-                    game->refreshBoard();
+                    
+                    
                 }
                 
                 if (msg_received == "exit") {
@@ -66,9 +70,20 @@ void Client::create_connection(Client * client, Game * game){
     socket.close();
 };
 void Client::send_message(const std::string& message) {
-    cout <<"ABOUT TO SEND A MESSAGE"<< endl;
-    boost::asio::write(socket, boost::asio::buffer(message));
+    // Make a copy of the message
+    std::string modifiedMessage = message;
+
+    // Check if the copy includes '\n'
+    size_t found = modifiedMessage.find("\n");
+    if (found == std::string::npos) {
+        modifiedMessage = modifiedMessage + "\n";
+    } 
+    
+    // Send the modified copy
+    boost::asio::write(socket, boost::asio::buffer(modifiedMessage));
 }
+
+
 
 char Client:: getSign(){
     return this->sign;
@@ -84,5 +99,3 @@ void Client:: printClient(){
     cout<< this->getPosition()<<endl;
 
 };
-
-

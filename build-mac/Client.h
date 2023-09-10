@@ -7,6 +7,7 @@
 #include <boost/asio.hpp>
 #include "Game.h"
 #include "Panel.h"
+class cMain; // forward declaration instead of include so to avoid circular dependency
 
 using namespace std;
 
@@ -21,12 +22,14 @@ class Client
         char getSign();
         // void setMainWindow();
         void printClient();
+       
 
     private:
         int position;
         char sign;
         boost::asio::io_context ioContext;
         boost::asio::ip::tcp::socket socket;
+        cMain *mainFrame;
         // cMain *mainWindow;
 };
 

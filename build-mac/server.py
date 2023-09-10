@@ -13,10 +13,6 @@ def handle_client(client_socket):
         print(f"Client #{len(clients)} just connected\n Game is about to start")
         client_socket.send("You are player 2\n".encode())
     
-    # else:
-    #    print("The game is Already full")
-    #    # cancel connection
-    
     while True:
         try:
             msg_received = client_socket.recv(1024)
@@ -25,10 +21,12 @@ def handle_client(client_socket):
                 clients.remove(client_socket)
                 break
             msg_received = msg_received.decode()
-            print("Client:", msg_received)
+            # print("Client:", msg_received)
             
             for client in clients:
                 if client != client_socket:
+                    print("About to send this to other client")
+                    print(msg_received)
                     client.send(msg_received.encode())
             # for client in clients:
             #     client.send(msg_received.encode())

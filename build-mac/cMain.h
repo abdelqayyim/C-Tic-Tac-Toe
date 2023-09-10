@@ -25,6 +25,8 @@ class cMain : public wxFrame
         bool gameOver();
         void printBoard();
         void OnClose(wxCloseEvent &event);
+        void updatePanels();
+        void OnUpdateTimer(wxTimerEvent &event);
 
     private:
         Score *ScoreBoard;
@@ -36,6 +38,7 @@ class cMain : public wxFrame
         std::thread receive_thread;
         Client *client;
         Game *game;
+        wxTimer updateTimer;
 };
 
 #endif // CMAIN_H

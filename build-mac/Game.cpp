@@ -1,6 +1,6 @@
 #include "Game.h"
 
-Game::Game(): turn(1), board("--------1\n"){//8 -
+Game::Game(): turn(1), board("---------1\n"){//8 -
 
 };
 string Game:: getGameState(){
@@ -15,11 +15,16 @@ void Game::updateBoard(string board){
 };
 
 void Game::refreshBoard() {
-    for (int i = 0; i < 9; i++) {
-        if(this->board[i] != '-'){
-            this->panels[i]->setSign(this->board[i]);
-        }
-    }
+    // for (int i = 0; i < 9; i++) {
+    //     if(this->board[i] != '-'){
+    //         cout <<"SHOULD CHANGE PANEL: ";
+    //         cout <<i<< endl;
+    //         this->panels[i]->setSign(this->board[i]);
+    //         this->panels[i]->Refresh();
+    //     }
+    // }
+    // this->panels[0]->setSign('X');
+    // this->panels[0]->Refresh();
 }
 int Game::getTurn(){
     return this->turn;

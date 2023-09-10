@@ -10,6 +10,7 @@ using namespace std;
 wxBEGIN_EVENT_TABLE(cMain, wxFrame)
 wxEND_EVENT_TABLE();
 
+
 cMain::cMain(Client * client, Game * game) : wxFrame(nullptr, wxID_ANY, "Tic Tac Toe", wxPoint(10, 10), wxSize(800, 600)) , client(client), game(game) 
 {
 
@@ -49,6 +50,11 @@ cMain::cMain(Client * client, Game * game) : wxFrame(nullptr, wxID_ANY, "Tic Tac
     this->playerTurn = 1;
     Center();
     this->game->setPanels(this->panels); // ASSIGN HERE
+
+    // Configure and start the timer
+    updateTimer.SetOwner(this);
+    updateTimer.Start(1000); // 1000 milliseconds (1 second)
+    Bind(wxEVT_TIMER, &cMain::OnUpdateTimer, this);
 }
 
 cMain::~cMain()
@@ -63,9 +69,11 @@ void cMain::OnLeftClicked(wxMouseEvent &event, Client * client){
     if (gameStatus == "ON" && clickedPanel->getSign() == ' ' && client->getPosition() == this->game->getTurn()) {   
         clickedPanel->setSign(client->getSign());
         string oldBoard = this->game->getBoard();
-        oldBoard[8] = (client->getPosition() == 1) ? '2' : '1';
+        oldBoard[9] = (client->getPosition() == 1) ? '2' : '1';
+        oldBoard[panelID] = this->client->getSign();
         game->updateBoard(oldBoard);
-
+        
+        this->updatePanels();
 
         //send this to serve
         this->client->send_message(this->game->getGameState());
@@ -76,7 +84,25 @@ void cMain::OnLeftClicked(wxMouseEvent &event, Client * client){
         }
     }
     event.Skip();
+};
+
+void cMain::updatePanels() {
+    for (int i = 0; i < 9; i++) {
+            if (this->game->getBoard()[i] != '-') {
+                this->panels[i]->setSign(this->game->getBoard()[i]);
+            }
+        }
 }
+void cMain::OnUpdateTimer(wxTimerEvent& event)
+{
+    // Update the panels based on the game board
+    updatePanels();
+
+    // Refresh the UI
+    Refresh();
+}
+
+
 // void cMain::updateScore(string sign, int position){
 //     this->ScoreBoard[position] = sign;
 // };
