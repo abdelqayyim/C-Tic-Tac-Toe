@@ -2,7 +2,7 @@
 #include <string>
 using namespace std;
 
-Panel::Panel(string sign, wxWindow *parent, int id, wxPoint defaultPosition, wxSize Size): wxPanel(parent, id), sign{sign}{
+Panel::Panel(char sign, wxWindow *parent, int id, wxPoint defaultPosition, wxSize Size): wxPanel(parent, id), sign{sign}{
     this->clicked = false;
     this->Bind(wxEVT_LEFT_DOWN, &Panel::OnLeftClicked, this);
     
@@ -25,21 +25,21 @@ void Panel::OnLeftClicked(wxMouseEvent &event){
     event.Skip();
 };
 void Panel::RefreshPanel(){
-    if(clicked){
-        this->text->SetLabel(this->sign);
-        wxFont font(100, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
-        this->text->SetFont(font);
+    this->text->SetLabel(this->sign);
+    wxFont font(100, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
+    this->text->SetFont(font);
+    this->Refresh();
 
-        // Ensure the sizer layout is updated after changing the label text
-        GetContainingSizer()->Layout();// Replace this with the actual method to get the sizer
-    }
-    else{
-        this->text->SetLabel("");
-    }
+    // Ensure the sizer layout is updated after changing the label text
+    GetContainingSizer()->Layout();// Replace this with the actual method to get the sizer
 };
-string Panel:: getSign(){
+char Panel:: getSign(){
     return this->sign;
 }
-void Panel:: setSign(string newSign){
+void Panel:: setSign(char newSign){
     this->sign = newSign;
+    this->RefreshPanel();
 }
+wxStaticText * Panel::getText(){
+    return this->text;
+};

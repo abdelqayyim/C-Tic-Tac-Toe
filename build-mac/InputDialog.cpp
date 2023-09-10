@@ -3,7 +3,7 @@ using namespace std;
 #include <string>
 #include "MyApp.h"
 
-InputDialog:: InputDialog(): wxFrame(nullptr, wxID_ANY, "Tic Tac Toe", wxPoint(10, 10), wxSize(800, 600))
+InputDialog:: InputDialog(Client* client): wxFrame(nullptr, wxID_ANY, "Tic Tac Toe", wxPoint(10, 10), wxSize(800, 600)) , client(client)
 {
     this->Bind(wxEVT_CLOSE_WINDOW, &InputDialog::OnClose, this);
     this->isLoggedIn = false;
@@ -50,9 +50,8 @@ void InputDialog::OnSubmitButtonClick(wxCommandEvent& event){
     this->userNameString = usernameStr;
     this->serverCodeString = serverCodeStr;
 
-    // Print the values
-    cout << "Username: " << usernameStr << endl;
-    cout << "Server Code: " << serverCodeStr << endl;
+    // this->newPlayer->setName(usernameStr);
+    // this->newPlayer->setServerCode(serverCodeStr);
 
     MyApp* app = dynamic_cast<MyApp*>(wxTheApp);
     if (app) {

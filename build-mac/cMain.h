@@ -6,16 +6,17 @@
     #include <wx/wx.h>
 #endif
 #include "Score.cpp"
+#include <boost/asio.hpp>
+#include "Game.h"
 #include "Panel.h"
-#include "Player.h"
-
+#include "Client.h"
 class cMain : public wxFrame
 {
     public:
-        cMain();
+        cMain( Client * client, Game * game);
         ~cMain();
         wxDECLARE_EVENT_TABLE();
-        void OnLeftClicked(wxMouseEvent &event);
+        void OnLeftClicked(wxMouseEvent &event, Client * client);
         const int ROWS = 3;
         const int COLUMNS = 3;
         wxButton **btn;
@@ -32,7 +33,9 @@ class cMain : public wxFrame
         int winningPattern;
         Panel *panels[9];
         int moves; // this is how many moves have been made. 9 moves to finish a game
-        Player players[2];
+        std::thread receive_thread;
+        Client *client;
+        Game *game;
 };
 
 #endif // CMAIN_H

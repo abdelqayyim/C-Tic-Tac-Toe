@@ -6,9 +6,7 @@ class Score
 {
     public:
         Score() : score{
-                      "_", "_", "_",
-                      "_", "_", "_",
-                      "_", "_", "_"
+                      
                 }
         {};
         void update(const string newScore[9]) {

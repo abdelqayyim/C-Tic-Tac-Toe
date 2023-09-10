@@ -2,13 +2,20 @@ import socket
 import threading
 
 clients = []
-print(f"The initial length is {len(clients)}")
 def handle_client(client_socket):
     clients.append(client_socket)
+    print(len(clients))
     if len(clients) == 1:
         print(f"Connection from Client #{len(clients)}\nWaiting for Client #2")
-    else:
-        print(f"Client #{len(clients)} just connect\n Game is about to start")
+        client_socket.send("You are player 1\n".encode())
+    
+    if len(clients) == 2:
+        print(f"Client #{len(clients)} just connected\n Game is about to start")
+        client_socket.send("You are player 2\n".encode())
+    
+    # else:
+    #    print("The game is Already full")
+    #    # cancel connection
     
     while True:
         try:
@@ -23,6 +30,8 @@ def handle_client(client_socket):
             for client in clients:
                 if client != client_socket:
                     client.send(msg_received.encode())
+            # for client in clients:
+            #     client.send(msg_received.encode())
         except:
             clients.remove(client_socket)
             print("Player has been removed")

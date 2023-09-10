@@ -525,10 +525,10 @@ cmake_check_build_system:
 
 
 tic: cMain.cpp
-	g++ -Wall -std=c++11 -o tic cMain.cpp MyApp.cpp Panel.cpp Player.cpp InputDialog.cpp `wx-config --libs` `wx-config --cxxflags`
+	g++ -Wall -std=c++11 -o tic cMain.cpp Game.cpp MyApp.cpp Client.cpp Panel.cpp InputDialog.cpp -I./Boost `wx-config --libs` `wx-config --cxxflags`
 	# g++ -Wall -std=c++11 -o tic Main.cpp `wx-config --libs` `wx-config --cxxflags`
-client: cMain.cpp
-	g++ -std=c++11 -o client client.cpp -I./Boost -lpthread -pthread
+client: Client.cpp
+	g++ -std=c++11 -o client Client.cpp -I./Boost -lpthread -pthread
 cleantic: 
 	rm -f tic  client *.o
 # g++ -std=c++11 -o client client.cpp -I./Boost -lboost_system.so -lpthread -pthread

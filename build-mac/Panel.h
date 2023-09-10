@@ -10,16 +10,17 @@ using namespace std;
 class Panel : public wxPanel
 {
     public:
-        Panel(string sign, wxWindow *parent, int id, wxPoint defaultPosition, wxSize defaultSize);
+        Panel(char sign, wxWindow *parent, int id, wxPoint defaultPosition, wxSize defaultSize);
         void OnLeftClicked(wxMouseEvent &event);
         void RefreshPanel();
-        string getSign();
-        void setSign(string newSign);
+        char getSign();
+        void setSign(char newSign);
+        wxStaticText * getText();
 
     private:
         bool clicked;
         wxStaticText *text;
-        string sign;
+        char sign;
 };
 
 #endif // PANEL_H

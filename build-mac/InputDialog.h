@@ -5,12 +5,13 @@
 #ifndef WX_PRECOMP
     #include <wx/wx.h>
 #endif
+#include "Client.h"
 using namespace std;
 
 class InputDialog : public wxFrame
 {
     public:
-        InputDialog();
+        InputDialog(Client * client);
         ~InputDialog();
         void OnSubmitButtonClick(wxCommandEvent& event);
         void OnClose(wxCloseEvent &event);
@@ -25,6 +26,7 @@ class InputDialog : public wxFrame
         string userNameString;
         string serverCodeString;
         bool isLoggedIn;
+        Client * client;
 };
 
 #endif // INPUTDIALOG_H

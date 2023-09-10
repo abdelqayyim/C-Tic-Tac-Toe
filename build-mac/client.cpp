@@ -1,13 +1,11 @@
-#include <iostream>
-#include <thread>
-#include <string>
-#include <boost/asio.hpp>
+#include "Client.h"
 using namespace std;
+Client::Client() : ioContext(), socket(ioContext) {
+    // Other initialization code for ioContext, endpoint, etc.
+}
 
-class Client {
-public:
-    void receive_messages(boost::asio::ip::tcp::socket& socket) {
-        try {
+void Client::receive_messages(boost::asio::ip::tcp::socket &socket, Game * game){
+try {
             boost::asio::streambuf buffer;
             while (true) {
                 boost::asio::read_until(socket, buffer, '\n');
@@ -15,28 +13,44 @@ public:
                 string msg_received;
                 getline(input, msg_received);
                 
-                cout << "Server: " << msg_received << endl;
+                // cout << "Server: " << msg_received << endl;
+                cout <<"ABOUT TO PRINT RECEIVED MESSAGE"<< endl;
+                cout <<msg_received<< endl;
+                if (msg_received == "You are player 1") {
+                    this->position = 1;
+                    this->sign = 'X';
+                }
+                else if (msg_received == "You are player 2")
+                {
+                    this->position = 2;
+                    this->sign = 'O';
+                }
+                else{
+                    cout <<"NEW MESSAGE RECEIVED"<< endl;
+                    //this is where you update the game state
+                    game->updateBoard(msg_received);
+                    game->refreshBoard();
+                }
+                
                 if (msg_received == "exit") {
                     break;
                 }
+                
+                
             }
         } catch (const exception& e) {
             cerr << "Error: " << e.what() << endl;
         }
-    }
 };
+void Client::create_connection(Client * client, Game * game){
+    // boost::asio::io_context ioContext;
 
-int main() {
-    boost::asio::io_context ioContext;
-
-    boost::asio::ip::tcp::socket socket(ioContext);
+    // boost::asio::ip::tcp::socket socket(ioContext);
     boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::address::from_string("127.0.0.1"), 9990);
     socket.connect(endpoint);
 
-    cout << "New client created:" << endl;
+    std::thread receive_thread([this, &client, game]() { client->receive_messages(this->socket, game); }); // Using lambda
 
-    Client client; // Create an instance of the Client class
-    std::thread receive_thread([&client, &socket]() { client.receive_messages(socket); }); // Using lambda
     receive_thread.detach();
 
     while (true) {
@@ -50,5 +64,25 @@ int main() {
     }
 
     socket.close();
-    return 0;
+};
+void Client::send_message(const std::string& message) {
+    cout <<"ABOUT TO SEND A MESSAGE"<< endl;
+    boost::asio::write(socket, boost::asio::buffer(message));
 }
+
+char Client:: getSign(){
+    return this->sign;
+};
+int Client::getPosition()
+{
+    return this->position;
+};
+void Client:: printClient(){
+    cout<<"The Player sign is: ";
+    cout<< this->getSign();
+    cout<<" and the position is: ";
+    cout<< this->getPosition()<<endl;
+
+};
+
+
