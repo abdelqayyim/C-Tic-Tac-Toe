@@ -30,10 +30,7 @@ try {
                 }
                 else{
                     cout <<"NEW MESSAGE RECEIVED"<< endl;
-                    
                     game->updateBoard(msg_received);
-                    
-                    
                 }
                 
                 if (msg_received == "exit") {

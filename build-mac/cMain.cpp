@@ -97,6 +97,9 @@ void cMain::OnUpdateTimer(wxTimerEvent& event)
 {
     // Update the panels based on the game board
     updatePanels();
+    if (gameOver() == true) {
+        this->gameStatus = "OVER";
+    }
 
     // Refresh the UI
     Refresh();
@@ -121,12 +124,33 @@ bool cMain::gameOver(){
         {0, 4, 8},
         {2, 4, 6}
     };
-    
+    // TODO:
+    // int possibleTies[9][3] = {
+    //     {0, 1, 2},
+    //     {3, 4, 5},
+    //     {6, 7, 8},
+    //     {0, 3, 6},
+    //     {1, 4, 7},
+    //     {2, 5, 8},
+    //     {0, 4, 8},
+    //     {2, 4, 6}
+    // };
+
     for (int i = 0; i < 8; i++) {
         if (panels[possibleWins[i][0]]->getSign() != ' ' && (panels[possibleWins[i][0]]->getSign() == panels[possibleWins[i][1]]->getSign()) && (panels[possibleWins[i][0]]->getSign() == panels[possibleWins[i][2]]->getSign())){
             panels[possibleWins[i][0]]->SetBackgroundColour(wxColor(75,145,4));
             panels[possibleWins[i][1]]->SetBackgroundColour(wxColor(75,145,4));
             panels[possibleWins[i][2]]->SetBackgroundColour(wxColor(75,145,4));
+
+            char sign = panels[possibleWins[i][0]]->getSign();
+            if (this->client->getSign() == sign) {
+                cout <<"Player ";
+                cout <<this->client->getPosition();
+                cout <<" HAS won the game"<< endl;
+            }
+            else{
+                cout <<"Player 2 has won the game"<< endl;
+            }
 
             panels[possibleWins[i][0]]->Refresh();
             panels[possibleWins[i][1]]->Refresh();
@@ -135,6 +159,7 @@ bool cMain::gameOver(){
             return true;
         }
     }
+    cout <<"The game is a tie"<< endl;
     
     return false;
 };
