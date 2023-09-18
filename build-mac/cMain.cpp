@@ -53,7 +53,7 @@ cMain::cMain(Client * client, Game * game) : wxFrame(nullptr, wxID_ANY, "Tic Tac
 
     // Configure and start the timer
     updateTimer.SetOwner(this);
-    updateTimer.Start(1000); // 1000 milliseconds (1 second)
+    updateTimer.Start(500); // 1000 milliseconds (1 second)
     Bind(wxEVT_TIMER, &cMain::OnUpdateTimer, this);
 }
 

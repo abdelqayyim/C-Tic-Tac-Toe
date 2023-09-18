@@ -80,8 +80,6 @@ void Client::send_message(const std::string& message) {
     boost::asio::write(socket, boost::asio::buffer(modifiedMessage));
 }
 
-
-
 char Client:: getSign(){
     return this->sign;
 };
@@ -94,5 +92,4 @@ void Client:: printClient(){
     cout<< this->getSign();
     cout<<" and the position is: ";
     cout<< this->getPosition()<<endl;
-
 };
